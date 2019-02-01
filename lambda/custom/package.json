@@ -1,8 +1,10 @@
 {
   "name": "alexa-skill-pronounce-it",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/main/index.ts",
   "scripts": {
+    "lint": "tslint -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Damian Dunajski",
@@ -10,5 +12,9 @@
   "dependencies": {
     "ask-sdk-core": "^2.0.0",
     "ask-sdk-model": "^1.0.0"
+  },
+  "devDependencies": {
+    "tslint": "^5.0.0",
+    "typescript": "^3.0.0"
   }
 }
