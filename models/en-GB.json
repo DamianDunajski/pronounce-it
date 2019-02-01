@@ -18,7 +18,11 @@
         {
           "name": "PronounceItIntent",
           "samples": [
-            "let me pronounce"
+            "let me pronounce random word",
+            "let's being",
+            "let's start",
+            "test me",
+            "try me"
           ]
         }
       ]

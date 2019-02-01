@@ -8,7 +8,7 @@ const LaunchRequestHandler = {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const speechText = 'Welcome to the Pronounce It, you can say let me pronounce!';
+    const speechText = 'Welcome to Pronounce It, you can say "let’s begin" to start!';
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -23,7 +23,7 @@ const PronounceItIntentHandler = {
       && handlerInput.requestEnvelope.request.intent.name === 'PronounceItIntent';
   },
   handle(handlerInput) {
-    const speechText = 'Pronounce H. O. M. E.';
+    const speechText = 'Pronounce. H. O. M. E.';
 
     return handlerInput.responseBuilder
       .speak(speechText)
