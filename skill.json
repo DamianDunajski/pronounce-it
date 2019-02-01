@@ -1,0 +1,27 @@
+{
+  "manifest": {
+    "manifestVersion": "1.0",
+    "publishingInformation": {
+      "locales": {
+        "en-GB": {
+          "name": "Pronounce It",
+          "summary": "Skill that spells random word and asks user to pronounce it correctly",
+          "description": "Skill that spells random word and asks user to pronounce it correctly",
+          "examplePhrases": [
+            "help"
+          ]
+        }
+      },
+      "isAvailableWorldwide": false,
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda/custom",
+          "uri": "arn:aws:lambda:us-east-1:027524546184:function:e2f964b4-f3c0-48f0-87ac-4af87c10157b:Release_0"
+        }
+      }
+    }
+  }
+}
