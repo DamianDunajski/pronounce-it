@@ -23,7 +23,11 @@ const PronounceItIntentHandler: RequestHandler = {
       && handlerInput.requestEnvelope.request.intent.name === "PronounceItIntent";
   },
   handle(handlerInput: HandlerInput): Response {
-    const speechText = "Pronounce. H. O. M. E.";
+    const pronounce = (word: string): string => {
+      return `Pronounce<break strength='strong'/><say-as interpret-as='spell-out'><prosody rate='slow'>${word}</prosody></say-as>`;
+    };
+
+    const speechText: string = pronounce("HOME");
 
     return handlerInput.responseBuilder
       .speak(speechText)
