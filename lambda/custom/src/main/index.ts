@@ -1,7 +1,11 @@
 // tslint:disable no-console
 
 import { ErrorHandler, HandlerInput, RequestHandler, SkillBuilders } from "ask-sdk-core";
-import { Response, SessionEndedRequest } from "ask-sdk-model";
+import { IntentRequest, Response, SessionEndedRequest } from "ask-sdk-model";
+
+const pronounce = (word: string): string => {
+  return `Pronounce<break strength='strong'/><say-as interpret-as='spell-out'><prosody rate='slow'>${word}</prosody></say-as>`;
+};
 
 const LaunchRequestHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
@@ -23,14 +27,19 @@ const PronounceItIntentHandler: RequestHandler = {
       && handlerInput.requestEnvelope.request.intent.name === "PronounceItIntent";
   },
   handle(handlerInput: HandlerInput): Response {
-    const pronounce = (word: string): string => {
-      return `Pronounce<break strength='strong'/><say-as interpret-as='spell-out'><prosody rate='slow'>${word}</prosody></say-as>`;
-    };
+    const request = handlerInput.requestEnvelope.request as IntentRequest;
+    const pronouncedWord: string | undefined = request.intent.slots!.word.value;
 
-    const speechText: string = pronounce("HOME");
+    if (pronouncedWord === undefined) {
+      return handlerInput.responseBuilder
+        .speak(pronounce("HOME"))
+        .addElicitSlotDirective("word")
+        .getResponse();
+    }
 
     return handlerInput.responseBuilder
-      .speak(speechText)
+      .speak(`OK, you pronounced: ${pronouncedWord}`)
+      .withShouldEndSession(true)
       .getResponse();
   },
 };

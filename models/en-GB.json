@@ -17,6 +17,12 @@
         },
         {
           "name": "PronounceItIntent",
+          "slots": [
+            {
+              "name": "word",
+              "type": "WORD"
+            }
+          ],
           "samples": [
             "let me pronounce random word",
             "let's being",
@@ -24,8 +30,67 @@
             "test me",
             "try me"
           ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        }
+      ],
+      "types": [
+        {
+          "name": "WORD",
+          "values": [
+            {
+              "name": {
+                "value": "completion"
+              }
+            },
+            {
+              "name": {
+                "value": "brother"
+              }
+            },
+            {
+              "name": {
+                "value": "home"
+              }
+            }
+          ]
         }
       ]
-    }
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "PronounceItIntent",
+          "delegationStrategy": "SKILL_RESPONSE",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "word",
+              "type": "WORD",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.952715855251.1372666530377"
+              }
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.952715855251.1372666530377",
+        "variations": [
+          {
+            "type": "SSML",
+            "value": "<speak>Pronounce</speak>"
+          }
+        ]
+      }
+    ]
   }
 }
