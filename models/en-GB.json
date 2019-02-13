@@ -4,11 +4,11 @@
       "invocationName": "pronounce it",
       "intents": [
         {
-          "name": "AMAZON.CancelIntent",
+          "name": "AMAZON.HelpIntent",
           "samples": []
         },
         {
-          "name": "AMAZON.HelpIntent",
+          "name": "AMAZON.CancelIntent",
           "samples": []
         },
         {
@@ -16,7 +16,22 @@
           "samples": []
         },
         {
-          "name": "PronounceItIntent",
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "StartIntent",
+          "slots": [],
+          "samples": [
+            "let's start",
+            "let's being",
+            "try me",
+            "test me",
+            "let me pronounce random word"
+          ]
+        },
+        {
+          "name": "AnswerIntent",
           "slots": [
             {
               "name": "word",
@@ -24,16 +39,9 @@
             }
           ],
           "samples": [
-            "let me pronounce random word",
-            "let's being",
-            "let's start",
-            "test me",
-            "try me"
+            "It is {word}",
+            "{word}"
           ]
-        },
-        {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
         }
       ],
       "types": [
@@ -58,39 +66,6 @@
           ]
         }
       ]
-    },
-    "dialog": {
-      "intents": [
-        {
-          "name": "PronounceItIntent",
-          "delegationStrategy": "SKILL_RESPONSE",
-          "confirmationRequired": false,
-          "prompts": {},
-          "slots": [
-            {
-              "name": "word",
-              "type": "WORD",
-              "confirmationRequired": false,
-              "elicitationRequired": true,
-              "prompts": {
-                "elicitation": "Elicit.Slot.952715855251.1372666530377"
-              }
-            }
-          ]
-        }
-      ],
-      "delegationStrategy": "ALWAYS"
-    },
-    "prompts": [
-      {
-        "id": "Elicit.Slot.952715855251.1372666530377",
-        "variations": [
-          {
-            "type": "SSML",
-            "value": "<speak>Pronounce</speak>"
-          }
-        ]
-      }
-    ]
+    }
   }
 }

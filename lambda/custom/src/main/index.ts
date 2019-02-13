@@ -21,24 +21,38 @@ const LaunchRequestHandler: RequestHandler = {
   },
 };
 
-const PronounceItIntentHandler: RequestHandler = {
+const StartIntentHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
     return handlerInput.requestEnvelope.request.type === "IntentRequest"
-      && handlerInput.requestEnvelope.request.intent.name === "PronounceItIntent";
+      && handlerInput.requestEnvelope.request.intent.name === "StartIntent";
+  },
+  handle(handlerInput: HandlerInput): Response {
+    const randomWord = "home";
+
+    handlerInput.attributesManager.setSessionAttributes({ randomWord });
+
+    return handlerInput.responseBuilder
+      .speak(pronounce(randomWord))
+      .reprompt(pronounce(randomWord))
+      .getResponse();
+  },
+};
+
+const AnswerIntentHandler: RequestHandler = {
+  canHandle(handlerInput: HandlerInput): boolean {
+    return handlerInput.requestEnvelope.request.type === "IntentRequest"
+      && handlerInput.requestEnvelope.request.intent.name === "AnswerIntent";
   },
   handle(handlerInput: HandlerInput): Response {
     const request = handlerInput.requestEnvelope.request as IntentRequest;
+
+    const { randomWord } = handlerInput.attributesManager.getSessionAttributes();
     const pronouncedWord: string | undefined = request.intent.slots!.word.value;
 
-    if (pronouncedWord === undefined) {
-      return handlerInput.responseBuilder
-        .speak(pronounce("HOME"))
-        .addElicitSlotDirective("word")
-        .getResponse();
-    }
+    const result = randomWord === pronouncedWord ? "Well done, you pronounced it correctly" : `Nope, your word was ${randomWord}`;
 
     return handlerInput.responseBuilder
-      .speak(`OK, you pronounced: ${pronouncedWord}`)
+      .speak(result)
       .withShouldEndSession(true)
       .getResponse();
   },
@@ -103,7 +117,8 @@ const ErrorHandler: ErrorHandler = {
 export const handler = SkillBuilders.custom()
   .addRequestHandlers(
     LaunchRequestHandler,
-    PronounceItIntentHandler,
+    StartIntentHandler,
+    AnswerIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler,
