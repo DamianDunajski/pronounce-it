@@ -3,8 +3,11 @@
 import { ErrorHandler, HandlerInput, RequestHandler, SkillBuilders } from "ask-sdk-core";
 import { IntentRequest, Response, SessionEndedRequest } from "ask-sdk-model";
 
+// @ts-ignore
+import { default as pickRandomWord } from "random-words";
+
 const pronounce = (word: string): string => {
-  return `Pronounce<break strength='strong'/><say-as interpret-as='spell-out'><prosody rate='slow'>${word}</prosody></say-as>`;
+  return `Pronounce: <say-as interpret-as='spell-out'><prosody rate='x-slow'>${word}</prosody></say-as>`;
 };
 
 const LaunchRequestHandler: RequestHandler = {
@@ -27,7 +30,7 @@ const StartIntentHandler: RequestHandler = {
       && handlerInput.requestEnvelope.request.intent.name === "StartIntent";
   },
   handle(handlerInput: HandlerInput): Response {
-    const randomWord = "home";
+    const randomWord = pickRandomWord();
 
     handlerInput.attributesManager.setSessionAttributes({ randomWord });
 

@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "ask-sdk-core": "^2.0.0",
-    "ask-sdk-model": "^1.0.0"
+    "ask-sdk-model": "^1.0.0",
+    "random-words": "1.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.5.0",
