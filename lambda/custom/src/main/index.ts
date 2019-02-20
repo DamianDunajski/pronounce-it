@@ -3,7 +3,27 @@
 import { ErrorHandler, HandlerInput, RequestHandler, SkillBuilders } from "ask-sdk-core";
 import { IntentRequest, Response, SessionEndedRequest } from "ask-sdk-model";
 // @ts-ignore
-import { default as pickRandomWord } from "random-words";
+import { default as randomWords } from "random-words";
+
+const forbiddenWords = [
+  "cancel",
+  "help",
+  "no",
+  "off",
+  "stop",
+  "sure",
+  "yes",
+];
+
+const pickRandomWord = (): string => {
+  let word: string;
+
+  do {
+    word = randomWords();
+  } while (forbiddenWords.includes(word));
+
+  return word;
+};
 
 const pronounce = (word: string): string => {
   return `<say-as interpret-as='spell-out'><prosody rate='x-slow'>${word}</prosody></say-as>`;
