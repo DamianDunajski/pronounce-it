@@ -2,12 +2,11 @@
 
 import { ErrorHandler, HandlerInput, RequestHandler, SkillBuilders } from "ask-sdk-core";
 import { IntentRequest, Response, SessionEndedRequest } from "ask-sdk-model";
-
 // @ts-ignore
 import { default as pickRandomWord } from "random-words";
 
 const pronounce = (word: string): string => {
-  return `Pronounce: <say-as interpret-as='spell-out'><prosody rate='x-slow'>${word}</prosody></say-as>`;
+  return `<say-as interpret-as='spell-out'><prosody rate='x-slow'>${word}</prosody></say-as>`;
 };
 
 const LaunchRequestHandler: RequestHandler = {
@@ -15,11 +14,9 @@ const LaunchRequestHandler: RequestHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput: HandlerInput): Response {
-    const speechText = 'Welcome to Pronounce It, you can say "let’s begin" to start!';
-
     return handlerInput.responseBuilder
-      .speak(speechText)
-      .reprompt(speechText)
+      .speak("Welcome to Pronounce It, the game where you’ll have to pronounce word I spelt for you. You can stop the game any time. Ready to start?")
+      .reprompt("Say ‘yes’ to start the game or ‘no’ to drop out")
       .getResponse();
   },
 };
@@ -27,16 +24,16 @@ const LaunchRequestHandler: RequestHandler = {
 const StartIntentHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
     return handlerInput.requestEnvelope.request.type === "IntentRequest"
-      && handlerInput.requestEnvelope.request.intent.name === "StartIntent";
+      && handlerInput.requestEnvelope.request.intent.name === "AMAZON.YesIntent";
   },
   handle(handlerInput: HandlerInput): Response {
-    const randomWord = pickRandomWord();
+    const randomWord: string = pickRandomWord();
 
     handlerInput.attributesManager.setSessionAttributes({ randomWord });
 
     return handlerInput.responseBuilder
-      .speak(pronounce(randomWord))
-      .reprompt(pronounce(randomWord))
+      .speak(`Great, here is your first challenge. Please pronounce: ${pronounce(randomWord)}`)
+      .reprompt(`Your word is: ${pronounce(randomWord)}. Pronounce it`)
       .getResponse();
   },
 };
@@ -50,13 +47,16 @@ const AnswerIntentHandler: RequestHandler = {
     const request = handlerInput.requestEnvelope.request as IntentRequest;
 
     const { randomWord } = handlerInput.attributesManager.getSessionAttributes();
-    const pronouncedWord: string | undefined = request.intent.slots!.word.value;
+    const pronouncedWord: string = request.intent.slots!.word.value;
 
-    const result = randomWord === pronouncedWord ? "Well done, you pronounced it correctly" : `Nope, your word was ${randomWord}`;
+    const nextRandomWord: string = pickRandomWord();
+    handlerInput.attributesManager.setSessionAttributes({ randomWord: nextRandomWord });
+
+    const result = randomWord === pronouncedWord ? `Well done, you pronounced it correctly. Try another one. Pronounce: ${pronounce(nextRandomWord)}` : `Nope. Your word was ${randomWord}. Try again. Pronounce: ${pronounce(nextRandomWord)}`;
 
     return handlerInput.responseBuilder
       .speak(result)
-      .withShouldEndSession(true)
+      .reprompt(`Your next word is: ${pronounce(nextRandomWord)}. Pronounce it`)
       .getResponse();
   },
 };
@@ -67,11 +67,9 @@ const HelpIntentHandler: RequestHandler = {
       && handlerInput.requestEnvelope.request.intent.name === "AMAZON.HelpIntent";
   },
   handle(handlerInput: HandlerInput): Response {
-    const speechText = "You can say let me pronounce!";
-
     return handlerInput.responseBuilder
-      .speak(speechText)
-      .reprompt(speechText)
+      .speak("An objective goal of the game is to pronounce correctly random word I spelt for you. If you’re not sure I’ll spell the same word again. If you wanna quit say ‘Stop’ or ‘I’m done’. Ready to start the game?")
+      .reprompt("Ready to start the game?")
       .getResponse();
   },
 };
@@ -87,6 +85,7 @@ const CancelAndStopIntentHandler: RequestHandler = {
 
     return handlerInput.responseBuilder
       .speak(speechText)
+      .withShouldEndSession(true)
       .getResponse();
   },
 };

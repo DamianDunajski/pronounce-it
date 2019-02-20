@@ -9,25 +9,26 @@
         },
         {
           "name": "AMAZON.CancelIntent",
-          "samples": []
+          "samples": [
+            "no",
+            "no thanks"
+          ]
         },
         {
           "name": "AMAZON.StopIntent",
-          "samples": []
+          "samples": [
+            "I'am done"
+          ]
         },
         {
           "name": "AMAZON.NavigateHomeIntent",
           "samples": []
         },
         {
-          "name": "StartIntent",
-          "slots": [],
+          "name": "AMAZON.YesIntent",
           "samples": [
-            "let's start",
-            "let's being",
-            "try me",
-            "test me",
-            "let me pronounce random word"
+            "Let's start",
+            "Let's begin"
           ]
         },
         {
@@ -3965,11 +3966,6 @@
             },
             {
               "name": {
-                "value": "help"
-              }
-            },
-            {
-              "name": {
                 "value": "helpful"
               }
             },
@@ -5530,11 +5526,6 @@
             },
             {
               "name": {
-                "value": "no"
-              }
-            },
-            {
-              "name": {
                 "value": "nobody"
               }
             },
@@ -5656,11 +5647,6 @@
             {
               "name": {
                 "value": "of"
-              }
-            },
-            {
-              "name": {
-                "value": "off"
               }
             },
             {
@@ -8120,11 +8106,6 @@
             },
             {
               "name": {
-                "value": "stop"
-              }
-            },
-            {
-              "name": {
                 "value": "stopped"
               }
             },
@@ -8336,11 +8317,6 @@
             {
               "name": {
                 "value": "suppose"
-              }
-            },
-            {
-              "name": {
-                "value": "sure"
               }
             },
             {
@@ -9736,11 +9712,6 @@
             {
               "name": {
                 "value": "yellow"
-              }
-            },
-            {
-              "name": {
-                "value": "yes"
               }
             },
             {
