@@ -5,6 +5,12 @@
     ],
     "jsRules": {},
     "rules": {
+      "ordered-imports": [
+        true,
+        {
+          "import-sources-order": "any"
+        }
+      ],
       "max-line-length": [false]
     },
     "rulesDirectory": []
